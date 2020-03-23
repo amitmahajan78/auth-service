@@ -1,0 +1,62 @@
+spring:
+  main:
+    banner-mode: console
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    url: jdbc:postgresql://${DB_AUTH_IP:localhost}:5432/auth_server
+    username: ${POSTGRESQL_USERNAME:postgres}
+    password: ${POSTGRESQL_PASSWORD:password}
+    hikari:
+      minimum-idle: 5
+      maximum-pool-size: 20
+      idleTimeout: 30000
+      maxLifetime: 2000000
+      connectionTimeout: 30000
+      poolName: OdenktoolsJPAAuthServerHikariCP
+      jdbc-url: jdbc:postgresql://${DB_AUTH_IP:localhost}:5432/auth_server
+      driver-class-name: org.postgresql.Driver
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+      connection: 
+        provider_class: org.hibernate.hikaricp.internal.HikariCPConnectionProvider
+      naming:
+        physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQL95Dialect
+        format_sql: true
+        use_sql_comments: true
+        temp:
+          use_jdbc_metadata_defaults: false
+    show-sql: false
+  jackson:
+    serialization:
+      indent-output: true
+      fail-on-empty-beans: false
+  devtools:
+    restart:
+      log-condition-evaluation-delta: false
+      enabled: true
+# Logging Properties
+logging:
+  path: logs
+  file: ${logging.path}/log.log
+  level:
+    ROOT: INFO
+    com.odenktools: DEBUG
+    org.hibernate.SQL: ERROR
+    org.hibernate.type.descriptor.sql.BasicBinder: ERROR
+    org.springframework.web: WARN
+    org.springframework.boot: WARN
+    org.springframework.security: INFO
+# Resource Properties
+resources:
+  add-mappings: false
+# Application Properties
+application:
+  async:
+    core-pool-size: 10
+    max-pool-size: 50
+    queue-capacity: 10000
